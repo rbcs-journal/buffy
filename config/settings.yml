@@ -1,0 +1,31 @@
+journal:
+  name: "Revista Brasileira de Computação e Software Científico (RBCS)"
+  doi_prefix: "10.5281/zenodo"
+  url: "https://rbcs-journal.github.io/portal"
+  bot_github_user: "rbcs-bot"
+
+repositories:
+  reviews: "rbcs-journal/reviews"
+  papers: "rbcs-journal/papers"
+
+tracks:
+  - id: "bioinformatics"
+    name: "Bioinformática & Biologia Computacional"
+    label: "track:bioinformatics"
+  - id: "biomedical"
+    name: "Computação Biomédica & Informática em Saúde"
+    label: "track:biomedical"
+  - id: "ai-datascience"
+    name: "Inteligência Artificial & Ciência de Dados"
+    label: "track:ai-datascience"
+  - id: "computer-science"
+    name: "Computação Científica Geral & Algoritmos"
+    label: "track:computer-science"
+
+commands:
+  - assign_editor: ["assign @username as editor", "definir @username como editor"]
+  - add_reviewer: ["add @username as reviewer", "adicionar @username como revisor"]
+  - remove_reviewer: ["remove @username as reviewer", "remover @username como revisor"]
+  - generate_pdf: ["generate pdf", "gerar pdf", "compile pdf"]
+  - check_repository: ["check repository", "verificar repositorio"]
+  - recommend_accept: ["recommend accept", "recomendar aceite"]
