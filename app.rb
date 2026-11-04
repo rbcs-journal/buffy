@@ -60,6 +60,14 @@ def process_bot_command(repo, issue_number, body, author)
     reply = "👋 **Revisor Adicionado**: Olá @#{reviewer}, você foi incluído na equipe de revisores por pares da RBCS para este artigo!\n\nPor favor, utilize o checklist de revisão disponível no topo do issue e compartilhe seus comentários públicos nesta thread."
     github_client.add_comment(repo, issue_number, reply)
 
+  elsif clean_body =~ /check repository/ || clean_body =~ /verificar repositorio/ || clean_body =~ /auditar repositorio/
+    reply = "🔍 **Auditoria Disparada**: Iniciando checagem automatizada de conformidade do repositório, licença OSI, `paper.md`, suíte de testes e integração contínua...\n*(O relatório completo será postado pela GitHub Action a seguir).* "
+    github_client.add_comment(repo, issue_number, reply)
+
+  elsif clean_body =~ /check references/ || clean_body =~ /verificar referencias/
+    reply = "📚 **Auditoria Bibliográfica**: Verificando formatação do `paper.bib` e consultando status de validação dos DOIs na API da Crossref...\n*(O parecer será postado em instantes).* "
+    github_client.add_comment(repo, issue_number, reply)
+
   elsif clean_body =~ /generate pdf/ || clean_body =~ /compile pdf/ || clean_body =~ /gerar pdf/
     reply = "🚀 **Solicitação de Compilação**: Disparando container compilador Inara para gerar prévia do artigo...\n*(Acompanhe o status e baixe o PDF na aba Actions do repositório).* "
     github_client.add_comment(repo, issue_number, reply)
@@ -72,11 +80,12 @@ def process_bot_command(repo, issue_number, body, author)
   elsif clean_body =~ /help/ || clean_body =~ /ajuda/
     reply = <<~MSG
       🤖 **Comandos disponíveis no @#{SETTINGS['journal']['bot_github_user']}**:
-      - `@#{SETTINGS['journal']['bot_github_user']} assign @username as editor`
-      - `@#{SETTINGS['journal']['bot_github_user']} add @username as reviewer`
-      - `@#{SETTINGS['journal']['bot_github_user']} remove @username as reviewer`
-      - `@#{SETTINGS['journal']['bot_github_user']} generate pdf`
-      - `@#{SETTINGS['journal']['bot_github_user']} recommend accept`
+      - `@#{SETTINGS['journal']['bot_github_user']} check repository` — Executa auditoria automática (licença, testes, paper.md)
+      - `@#{SETTINGS['journal']['bot_github_user']} check references` — Valida referências BibTeX e resolve DOIs no Crossref
+      - `@#{SETTINGS['journal']['bot_github_user']} generate pdf` — Compila o artigo via Inara Docker Engine
+      - `@#{SETTINGS['journal']['bot_github_user']} assign @username as editor` — Designa o editor de trilha
+      - `@#{SETTINGS['journal']['bot_github_user']} add @username as reviewer` — Adiciona revisor à equipe
+      - `@#{SETTINGS['journal']['bot_github_user']} recommend accept` — Recomenda aprovação final do artigo
     MSG
     github_client.add_comment(repo, issue_number, reply)
   end
